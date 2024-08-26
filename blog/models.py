@@ -16,11 +16,20 @@ class Post(models.Model):
     status = models.IntegerField(choices=STATUS, default=0)
     exerpt = models.TextField(blank=True)
     updated_on = models.DateTimeField(auto_now=True)
-
+    
+    class Meta:
+        ordering = ["-date_posted"]
+    """
+The Meta class provides additional information or metadata about the model. One of its options is ordering,
+which specifies how the records associated with the model are ordered     
+    """
+    
     def __str__(self):
-        return self.title
-
-
+        return f"{self.title} | written by {self.author}"
+    # this is a dunder method that returns the title of the post and the author of the post
+    # basically it labels the post with the title and the author for users/admins to see
+    
+    
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='commenter')
