@@ -26,8 +26,9 @@ which specifies how the records associated with the model are ordered
     
     def __str__(self):
         return f"{self.title} | written by {self.author}"
-    # this is a dunder method that returns the title of the post and the author of the post
-    # basically it labels the post with the title and the author for users/admins to see
+    #This method gives each post a name that superusers, rather than Python developers,
+    # can more easily understand. When we look at posts in the console or admin panel,
+    # this name helps us figure out which post is which.
     
     
 class Comment(models.Model):
@@ -36,6 +37,9 @@ class Comment(models.Model):
     content = models.TextField()
     approved = models.BooleanField(default=False)
     date_posted = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        ordering = ["-date_posted"]
 
     def __str__(self):
         return f'Comment by {self.author} on {self.post}'
