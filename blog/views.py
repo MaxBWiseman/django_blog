@@ -10,3 +10,7 @@ class PostList(generic.ListView):
     # by the created_on field in descending order.
     template_name = "blog/index.html"
     paginate_by = 6
+    
+    # django automatically sets the context_object_name attribute to object_list.
+    # e.g "post_list" is the context_object_name, this becomes our iterator
+    # in the templates to show all published posts in order of date posted.

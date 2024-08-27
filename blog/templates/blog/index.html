@@ -1,5 +1,8 @@
 {% extends "base.html" %}
-
+<!--The brace and percentage sign notation, {% %}, is what we call a tag. Tags are more
+ complex than variables. Some of them, like the block tag, allow for text or HTML to be
+  inserted. Others, like the for loop, control flow by performing loops or logical
+   operations.-->
 {% block content %}
 
 <!-- index.html content starts here -->
@@ -10,6 +13,9 @@
         <div class="col-12 mt-3 left">
             <div class="row">
                 {% for post in post_list %}
+<!--A for loop needs something to iterate over. In this case, the post_list object.
+ This object is passed into the template by the generic ListView, and contains the
+  contents of the queryset that we defined earlier inside views.py-->
                 <div class="col-md-4">
                     <div class="card mb-4">
                         <div class="card-body">
@@ -29,6 +35,9 @@
                     </div>
                 </div>
                 {% if forloop.counter|divisibleby:3 %}
+<!--his if statement checks to see how many times our for loop has run. If the counter
+ is divisible by three, then it inserts another closing div tag and a new div with the
+  class of row. This is so that we have a maximum of three posts per row on the homepage.-->
             </div>
             <div class="row">
                 {% endif %}
