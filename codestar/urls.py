@@ -23,6 +23,11 @@ urlpatterns = [
     path("", include("blog.urls"), name="blog-urls"),
     
 ]
+
+
+
+
+
 """
 Installing django-summernote
 
