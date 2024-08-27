@@ -23,3 +23,13 @@ urlpatterns = [
     path("", include("blog.urls"), name="blog-urls"),
     
 ]
+"""
+Installing django-summernote
+
+After installing django-summernote, you add it to:
+The INSTALLED_APPS in settings.py,.
+The urlpatterns path in urls.py.
+python3 manage.py migrations.
+
+This goes for most Django apps.
+"""
