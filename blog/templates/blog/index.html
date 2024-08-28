@@ -26,9 +26,9 @@
                             </div>
                             <a href="#" class="post-link">
                                 <h2 class="card-title">{{ post.title }}</h2>
+                                <p class="card-text">{{ post.exerpt|truncatewords:30 }}</p>
                             </a>
-
-                            <hr />
+                            <hr/>
                             <p class="card-text text-muted h6">{{ post.date_posted|date:"F d, Y" }}</p>
                             </p>
                         </div>

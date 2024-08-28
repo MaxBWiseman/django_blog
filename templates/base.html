@@ -1,7 +1,7 @@
 {% load static %}
 
 {% url 'home' as home_url %}
-<!--assigning the 'home' URL to a variable named home_url, which is what the as keyword does.-->
+<!-- assigning the 'home' URL to a variable named home_url, which is what the as keyword does.-->
 
 <!DOCTYPE html>
 <html class="h-100" lang="en">
@@ -41,14 +41,13 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link {% if request.path == home_url %}active{% endif %}" aria-current="page"
-                            href="#">Home</a>
-<!--our if statement. It compares request.path, which is our current URL, with the home_url variable.
+                            href="{% url 'home' %}">Home</a>
+<!-- Our if statement. It compares request.path, which is our current URL, with the home_url variable.
  If they're the same, then it inserts the word active into the class names. So, we're saying that if
   the current request.path is equal to the variable we created at the top of base.html,
    then the text "active" is inserted into the class. Doing this means that we can apply a different
     class to our navigation with diffent styles for better UI design, depending on which page we're on-->
                     </li>
-
                 </ul>
                 <span class="navbar-text text-muted">
                     adventures of a software developer
@@ -72,10 +71,10 @@
             Made by Code Instituters
             {% endblock copyright %}
         <!-- The above captures the copyright part of this base.html template so that
-          it {% cache be modified on other templates outsider of there content area.
+          it cache be modified on other templates outsider of there content area.
            proving you can change the base template if you wish -->
             
-        {% endcache %}-->
+        {% endcache %}
         </p>
         <p class="m-0 text-center text-white">Follow us: <i class="fab fa-facebook-square ms-3"></i>
             <i class="fab fa-twitter-square ms-3"></i>
