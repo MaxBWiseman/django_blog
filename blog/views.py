@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from .models import Post
 
@@ -14,3 +14,27 @@ class PostList(generic.ListView):
     # django automatically sets the context_object_name attribute to object_list.
     # e.g "post_list" is the context_object_name, this becomes our iterator
     # in the templates to show all published posts in order of date posted.
+    
+    
+def post_detail(request, slug):
+    """
+    Display an individual :model:`blog.Post`.
+
+    **Context**
+
+    ``post``
+        An instance of :model:`blog.Post`.
+
+    **Template:**
+
+    :template:`blog/post_detail.html`
+    """
+
+    queryset = Post.objects.filter(status=1)
+    post = get_object_or_404(queryset, slug=slug)
+
+    return render(
+        request,
+        "blog/post_detail.html",
+        {"post": post},
+    )
