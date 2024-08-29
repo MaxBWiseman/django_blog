@@ -13,3 +13,5 @@ class About(models.Model):
     
     def __str__(self):
         return self.title
+    
+# This model is used to store the about page content in the database.

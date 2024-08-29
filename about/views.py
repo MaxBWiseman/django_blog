@@ -28,6 +28,6 @@ def about_me(request):
         {"about": about},
     )
 
-# This renders the about/about_detail.html template with the context containing the
+# This renders the about/about.html template with the context containing the
 # about object, instead of a class-based view, this is a function-based view
 
