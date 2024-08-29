@@ -47,7 +47,10 @@
   the current request.path is equal to the variable we created at the top of base.html,
    then the text "active" is inserted into the class. Doing this means that we can apply a different
     class to our navigation with diffent styles for better UI design, depending on which page we're on-->
-                        <a class="nav-link {% if request.path == about_url %}active{% endif %}" href="{% url 'about' %}">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == about_url %}active{% endif %}" aria-current="page"
+                            href="{% url 'about' %}">About</a>
                     </li>
                 </ul>
                 <span class="navbar-text text-muted">

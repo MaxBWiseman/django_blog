@@ -38,3 +38,6 @@ def about_detail(request, slug):
     )
 # This renders the about/about_detail.html template with the context containing the
 # about object, instead of a class-based view, this is a function-based view
+
+def home(request):
+    return render(request, 'about/home.html')
