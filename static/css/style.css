@@ -9,6 +9,10 @@ body {
     color: #4A4A4F;
 }
 
+ul, ol {
+    list-style-type: none;
+}
+
 .red-o {
     color: #E84610;
 }
