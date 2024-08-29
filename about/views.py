@@ -16,28 +16,18 @@ from .models import About
     # It retrieves all About objects from the database
     
     
-def about_detail(request, slug):
+def about_me(request):
     """
-    Display an individual :model:`about.About`.
-
-    **Context**
-
-    ``about``
-        An instance of :model:`about.About`.
-
-    **Template:**
-
-    :template:`about/about.html`
+    Renders the About page
     """
-    queryset = About.objects.first()
-    about = get_object_or_404(queryset, slug=slug)
+    about = About.objects.all().order_by('-updated_on').first()
+
     return render(
         request,
         "about/about.html",
         {"about": about},
     )
+
 # This renders the about/about_detail.html template with the context containing the
 # about object, instead of a class-based view, this is a function-based view
 
-def home(request):
-    return render(request, 'about/home.html')
