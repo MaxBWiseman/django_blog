@@ -39,6 +39,9 @@ which specifies how the records associated with the model are ordered
     
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
+    # The post field in the Comment model stores the ID of the blog post that a comment
+    # is linked to. For example, if comments 1, 2 and 3 are all about Post 1, then they
+    # will all have the same Foreign Key value of post = 1.
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='commenter')
     content = models.TextField()
     approved = models.BooleanField(default=False)

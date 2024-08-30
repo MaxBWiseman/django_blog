@@ -43,7 +43,14 @@ def post_detail(request, slug):
 # This function attempts to retrieve a single Post object from the queryset where the slug
 # matches the provided slug parameter. If no such object exists, it raises a 404 Not Found error.
     comments = post.comments.all().order_by("-date_posted")
+# While the Post model doesn't have a field named comments, the related_name in our
+# comment model sets up a logical link, effectively creating this association
     comment_count = post.comments.filter(approved=True).count()
+# So, when we use post.comments.all(), it will return all comments related to the
+# selected post by using related_name="comments". This is what is called a reverse
+# lookup. We don't access the Comment model directly. Instead, we fetch the related
+# data from the perspective of the Post model.
+
     
     if request.method == "POST":
         comment_form = CommentForm(data=request.POST)
