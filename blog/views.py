@@ -40,10 +40,16 @@ def post_detail(request, slug):
     post = get_object_or_404(queryset, slug=slug)
 # This function attempts to retrieve a single Post object from the queryset where the slug
 # matches the provided slug parameter. If no such object exists, it raises a 404 Not Found error.
+    comments = post.comments.all().order_by("-date_posted")
+    comment_count = post.comments.filter(approved=True).count()
+    
     return render(
         request,
         "blog/post_detail.html",
-        {"post": post},
+        {"post": post,
+         "comments": comments,
+         "comment_count": comment_count,
+         },
     )
 """
 This renders the blog/post_detail.html template with the context containing the post object. 
