@@ -53,20 +53,31 @@ def post_detail(request, slug):
 
     
     if request.method == "POST":
+# The first argument sent to any Django view function is the request object. Convention states that we give this parameter the name of request as well, for example:
+# def post_detail(request, slug):
+# That means that we can determine the HTTP verb that was used for our request by looking at the request.method property.
         print("Recieved a POST request")
         comment_form = CommentForm(data=request.POST)
         if comment_form.is_valid():
+# The is_valid() method makes sure we don't try to write a null value to the database. It also helps improve the security of our system
             comment = comment_form.save(commit=False)
 # Calling the save method with commit=False returns an object that hasn't yet been saved to the database so that we can modify it further.
+# The object will not be written to the database until we call the save method again.
+# We do this because we need to populate the post and author fields before we save.
             comment.author = request.user
+# We can then modify the object by setting the author field of the comment to the current request.user - the user who is currently logged in.
             comment.post = post
+# We also set the post field using the post variable, which contains the result of the get_object_or_404 helper function at the start of the view code.
             comment.save()
+# Now, we can finally call the save method to write the data to the database.
             messages.add_message(
                 request, messages.SUCCESS,
                 'Comment submitted and awaiting approval'
     )
+# This function accepts a request, a message tag, which we will use to style the messages later, and message text. When a message is added, we then display it using the code we added below the nav in base.html.
         
     comment_form = CommentForm()
+# Outside the if statement, we create a blank instance of the CommentForm class. This line resets the content of the form to blank so that a user can write a second comment if they wish.
     
     print("About to render template")
     
