@@ -36,10 +36,10 @@
             <div class="col-md-4 card mb-4 mt-3">
                 <div class="card-body">
                     {% if user.is_authenticated %}
-                    <h3>Leave a comment:</h3>
+                    <h3>Leave a message:</h3>
                     <p>Posting as: {{ user.username }}</p>
                     <form id="collaborateRequestForm" method="post" style="margin-top: 1.3em;">
-                        {{ comment_form | crispy }}
+                        {{ collaborate_form | crispy }}
                         {% csrf_token %}
                         <button id="submitButton" type="submit" class="btn btn-secondary btn-lg">Submit</button>
                     </form>
