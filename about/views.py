@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
-from django.views import generic
 from .models import About
+from .forms import CollaborateRequestForm
+
 
 # Create your views here.
 
@@ -21,13 +22,15 @@ def about_me(request):
     Renders the About page
     """
     about = About.objects.all().order_by('-updated_on').first()
+# This retrieves the most recent About object from the database
+    collaborate_form = CollaborateRequestForm()
+# This creates an instance of the CollaborateRequestForm form
 
     return render(
         request,
         "about/about.html",
-        {"about": about},
+        {"about": about,
+         "collaborate_form": collaborate_form,
+         },
     )
-
-# This renders the about/about.html template with the context containing the
-# about object, instead of a class-based view, this is a function-based view
-
+# This renders the about page using the about.html template and passes the about object and collaborate_form form to the template
