@@ -8,6 +8,15 @@ urlpatterns = [
     # The slug path converter before the colon defines the data type as a slug, and the slug after the
     # colon is the post.slug value passed from the template. You see this value in the URL path in the
     # browser bar.
+    path('<slug:slug>/edit_comment/<int:comment_id>',
+         views.comment_edit, name='comment_edit'),
+    # In the comment_edit URL path, the argument value from the url tag is passed into <slug:slug> and <int:comment_id>.
+    # The slug path converter before the colon defines the data type as a slug, and the slug after the colon is the post.slug value passed from the template.
+    # You see this value in the URL path in the browser bar.
+    # This identifies the post and comment to be edited.
+    path('<slug:slug>/delete_comment/<int:comment_id>',
+         views.comment_delete, name='comment_delete'),
+    # This identifies the post and comment to be deleted by passing the post.slug and comment.id values from the template.
 ]
 
 

@@ -1,7 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, reverse
 from django.views import generic
 from django.contrib import messages
-from .models import Post
+from django.http import HttpResponseRedirect
+from .models import Post, Comment
 from .forms import CommentForm
 
 # Create your views here.
@@ -110,3 +111,57 @@ in our URL. We store that result in a variable called post, and then we add a di
 to the render function. This dictionary is referred to as context. It is convention that the key
 name would be the same as the variable name we're passing through, e.g. {"post": post}.
 """
+
+
+def comment_edit(request, slug, comment_id):
+    """
+    view to edit comments
+    """
+    if request.method == "POST":
+
+        queryset = Post.objects.filter(status=1)
+# This filters the Post model objects to include only those with a status of 1 (Published).
+        post = get_object_or_404(queryset, slug=slug)
+# This function attempts to retrieve a single Post object from the queryset where the slug matches the provided slug parameter. If no such object exists, it raises a 404 Not Found error.
+        comment = get_object_or_404(Comment, pk=comment_id)
+# This function attempts to retrieve a single Comment object from the queryset where the pk matches the provided comment_id parameter. If no such object exists, it raises a 404 Not Found error.
+        comment_form = CommentForm(data=request.POST, instance=comment)
+# The instance argument is used to specify the instance of the Comment model that we want to edit. This instance is retrieved from the database using the get_object_or_404 function.
+
+        if comment_form.is_valid() and comment.author == request.user:
+# The is_valid() method makes sure we don't try to write a null value to the database. It also helps improve the security of our system
+            comment = comment_form.save(commit=False)
+# Calling the save method with commit=False returns an object that hasn't yet been saved to the database so that we can modify it further.
+            comment.post = post
+# We also set the post field using the post variable, which contains the result of the get_object_or_404 helper function at the start of the view code.
+            comment.approved = False
+# We also set the approved field to False so that the comment has to be approved by an admin before it is displayed.
+            comment.save()
+# Now, we can finally call the save method to write the data to the database
+            messages.add_message(request, messages.SUCCESS, 'Comment Updated!')
+        else:
+            messages.add_message(request, messages.ERROR, 'Error updating comment!')
+# Sends a message to the user if the form is not valid.
+    return HttpResponseRedirect(reverse('post_detail', args=[slug]))
+# This view returns you to the post webpage after you've edited the comment. This return is done with a HttpResponseRedirect and reverse to refresh the post_detail view.
+
+
+def comment_delete(request, slug, comment_id):
+    """
+    view to delete comment
+    """
+    comment = get_object_or_404(Comment, pk=comment_id)
+# This function attempts to retrieve a single Comment object from the queryset where the pk matches the provided comment_id parameter.
+# If no such object exists, it raises a 404 Not Found error.
+
+    if comment.author == request.user:
+# This checks if the author of the comment is the same as the user who is currently logged in.
+        comment.delete()
+# If the author of the comment is the same as the user who is currently logged in, the comment is deleted.
+        messages.add_message(request, messages.SUCCESS, 'Comment deleted!')
+    else:
+        messages.add_message(request, messages.ERROR, 'You can only delete your own comments!')
+# Prompt message if the user tries to delete a comment that is not theirs or successfully deletes their comment.
+    return HttpResponseRedirect(reverse('post_detail', args=[slug]))
+# This view returns you to the post webpage after you've deleted the comment. This return is done with a HttpResponseRedirect
+# and reverse to refresh the post_detail view.
