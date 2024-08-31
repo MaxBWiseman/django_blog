@@ -14,7 +14,7 @@ class About(models.Model):
     def __str__(self):
         return self.title
     
-# This model is used to store the about page content in the database.
+# This model is used to store the about page content in the database written through the admin interface.
 
 class CollaborateRequest(models.Model):
     name = models.CharField(max_length=200)
@@ -25,5 +25,5 @@ class CollaborateRequest(models.Model):
     def __str__(self):
         return f"Collaboration request from {self.name}"
     
-# This model is used to store collaboration requests in the database. The read field is used to track whether the request has been read or not.
-# The __str__ method is used to return a string representation of the object. In this case, it returns the name of the person who submitted the request.
+# This is where every peice of information given by the user in the collaboarte form is collected and stored to allow users to submit collaboration requests
+# This form will be used in the about_me view to handle the submission of collaboration requests.

@@ -22,3 +22,6 @@ class PostAdmin(SummernoteModelAdmin):
 class CollaborateRequestAdmin(admin.ModelAdmin):
 
     list_display = ('message', 'read',)
+    
+# This is where we register the models with the admin panel
+# so that we can manage them through the admin interface.
