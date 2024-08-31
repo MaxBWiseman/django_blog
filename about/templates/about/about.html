@@ -38,7 +38,7 @@
                     {% if user.is_authenticated %}
                     <h3>Leave a message:</h3>
                     <p>Posting as: {{ user.username }}</p>
-                    <form id="collaborateRequestForm" method="post" style="margin-top: 1.3em;">
+                    <form id="collaborateRequestForm" method="post">
                         {{ collaborate_form | crispy }}
                         {% csrf_token %}
                         <button id="submitButton" type="submit" class="btn btn-secondary btn-lg">Submit</button>

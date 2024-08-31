@@ -22,9 +22,7 @@ def about_me(request):
     """
     Renders the About page
     """
-    about = About.objects.all().order_by('-updated_on').first()
-# This retrieves the most recent About object from the database
-  
+   
     if request.method == "POST":
 # The first argument sent to any Django view function is the request object. Convention states that we give this parameter the name of request as well, for example:
 # def about_me(request):
@@ -41,9 +39,10 @@ def about_me(request):
             )
 #  When a prompt message is added, we then display it using the code we added below the nav in base.html.
     
-
-    else:
-        collaborate_form = CollaborateRequestForm()
+    about = About.objects.all().order_by('-updated_on').first()
+# This retrieves the most recent About object from the database
+    collaborate_form = CollaborateRequestForm()
+# This creates a new instance of the CollaborateRequestForm so that it can be passed to the template after a user submits a request
 
     return render(
         request,
