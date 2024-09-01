@@ -143,7 +143,22 @@ def comment_edit(request, slug, comment_id):
             messages.add_message(request, messages.ERROR, 'Error updating comment!')
 # Sends a message to the user if the form is not valid.
     return HttpResponseRedirect(reverse('post_detail', args=[slug]))
-# This view returns you to the post webpage after you've edited the comment. This return is done with a HttpResponseRedirect and reverse to refresh the post_detail view.
+# HttpResponseRedirect is a Django class that tells the browser to go to a different URL.
+# reverse is a Django function that constructs a URL from the provided URL path name and any relevant URL arguments: args=[slug].
+# Using the slug argument ensures the user is returned to the same blog post on which they edited or deleted a comment.
+
+# Information Flow to Javascript comments.js edit comments
+
+# User Interaction: The user clicks an edit button next to a comment.
+# JavaScript Handling: The JavaScript code retrieves the comment content and prepares the form for editing. It sets the form action to edit_comment/${commentId}.
+# Form Submission: The user edits the comment and submits the form. The form action URL (edit_comment/${commentId}) is used to send the request to the Django view.
+# Django View Processing: The Django view function processes the form submission, validates the data, and updates the comment in the database.
+# Feedback and Redirect: The user receives feedback (success or error message) and is redirected to the post detail page.
+
+# In summary:
+
+# JavaScript: Prepares the form for editing by populating it with the existing comment content and updating the form action.
+# Django View: Processes the form submission, validates the data, updates the comment, and provides feedback to the user.
 
 
 def comment_delete(request, slug, comment_id):
