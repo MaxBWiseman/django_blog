@@ -20,7 +20,7 @@ const deleteConfirm = document.getElementById("deleteConfirm");
 */
 for (let button of editButtons) {
   button.addEventListener("click", (e) => { /** listens for a click event and assigns the button to variable "e" */
-    let commentId = e.target.getAttribute("comment_id"); /** collects comment_id e.g. "2" */
+    let commentId = e.target.getAttribute("data-comment_id"); /** collects comment_id e.g. "2" */
     let commentContent = document.getElementById(`comment${commentId}`).innerText;/** appends the collected id e.g "2" too "comment2" */
     commentText.value = commentContent; /** fills the empty form textbox with the desired comment to edit */
     submitButton.innerText = "Update"; /** changes the normal "submit" button to "update" for good UX design */
@@ -68,7 +68,7 @@ Django View: Processes the form submission, validates the data, updates the comm
 */
 for (let button of deleteButtons) {
     button.addEventListener("click", (e) => {
-      let commentId = e.target.getAttribute("comment_id");
+      let commentId = e.target.getAttribute("data-comment_id");
       deleteConfirm.href = `delete_comment/${commentId}`;
       deleteModal.show();
     });

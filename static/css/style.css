@@ -163,3 +163,7 @@ ul, ol {
 .approval {
     color: rgb(222, 146, 168);
 }
+
+.img-responsive {
+    width: 75%;
+}
