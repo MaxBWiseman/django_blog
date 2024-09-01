@@ -12,7 +12,15 @@
         <p class="post-subtitle">{{ post.author }} | {{ post.date_posted }}</p>
       </div>
       <div class="d-none d-md-block col-md-6 masthead-image">
-        <img src="{% static 'images/default.jpg' %}" class="scale" alt="placeholder">
+        {% if "placeholder" in post.featured_image.url %}
+        <img src="{% static 'images/default.jpg' %}" class="scale" alt="placeholder image">
+        {% else %}
+        <img src="{{ post.featured_image.url }}" class="scale" alt="{{ post.title }}">
+        {% endif %}
+        <!-- If "placeholder" is detected, the template logic adds the link to default.jpg (stored in our static directory)
+         to the src attribute of the blogs <img> element. Otherwise, it fetches the unique image URL from Cloudinary that's stored in the featured_image field in the Post model.
+         It's important to understand that to retrieve the Cloudinary image URL, we use the .url attribute with the post.featured_image field, like so:
+         {{ post.featured_image.url }}-->
       </div>
     </div>
   </div>

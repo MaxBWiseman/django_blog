@@ -17,6 +17,7 @@ class Post(models.Model):
     # specifies the behavior to adopt when the referenced object is deleted. CASCADE specifies
     # that when the user is deleted, also delete the blog posts associated with that user.
     featured_image = CloudinaryField('image', default='placeholder')
+    # The featured_image field is a CloudinaryField that stores the URL of the blog image, instead of having to store the bulky image in the database.
     content = models.TextField()
     date_posted = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS, default=0)
