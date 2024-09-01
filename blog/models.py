@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 # above imports the User model from django.contrib.auth.models as its built in to Django
+from cloudinary.models import CloudinaryField
 
 STATUS = ((0, "Draft"), (1, "Published"))
 # status choices for the Post model
@@ -15,6 +16,7 @@ class Post(models.Model):
     # The author field is a foreign key that links to the User model. The on_delete parameter
     # specifies the behavior to adopt when the referenced object is deleted. CASCADE specifies
     # that when the user is deleted, also delete the blog posts associated with that user.
+    featured_image = CloudinaryField('image', default='placeholder')
     content = models.TextField()
     date_posted = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS, default=0)
