@@ -32,7 +32,13 @@ def post_detail(request, slug):
 
     ``post``
         An instance of :model:`blog.Post`.
-
+    ``comments``
+        A queryset of :model:`blog.Comment` objects related to the post.
+    ``comment_count``
+        An integer representing the number of approved comments related to the post.
+    ``comment_form``
+        An instance of :form:`blog.CommentForm` to submit comments.
+        
     **Template:**
 
     :template:`blog/post_detail.html`

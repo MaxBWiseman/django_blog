@@ -5,6 +5,15 @@ from django_summernote.admin import SummernoteModelAdmin
 
 @admin.register(About)
 class PostAdmin(SummernoteModelAdmin):
+    """
+    django_summernote is a plugin that allows us to use the Summernote in the admin panel.
+
+    **Context**
+    
+    ``PostAdmin``
+        An instance of :model:`about.About` that represents the About model in the Django admin interface.
+    
+    """
 
     summernote_fields = ('content',)
 

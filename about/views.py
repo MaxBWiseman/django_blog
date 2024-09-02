@@ -21,7 +21,16 @@ from .forms import CollaborateRequestForm
 def about_me(request):
     """
     Renders the About page and handles POST requests for the Collaborate form.
-    :model:`about.About` objects are retrieved from the database and passed to the template.
+    objects are retrieved from the database and passed to the template.
+    
+    **Context**
+        
+    ``about``
+        An instance of :model:`about.About` that represents the most recent About object in the database.
+    ``collaborate_form``
+        An instance of :model:`about.CollaborateRequestForm` that is used to submit collaboration requests.
+    **Template:**
+        :template:`about/about.html`
     """
    
     if request.method == "POST":

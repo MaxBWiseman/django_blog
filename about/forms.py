@@ -3,6 +3,14 @@ from .models import CollaborateRequest
 
 
 class CollaborateRequestForm(forms.ModelForm):
+    """
+    A form that allows users to submit collaboration requests.
+
+    **Context**
+            
+        ``CollaborateRequestForm``
+                An instance of :model:`about.CollaborateRequest` that allows users to submit collaboration requests.
+    """
     class Meta:
         model = CollaborateRequest
         fields = ('name', 'email', 'message')
