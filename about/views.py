@@ -20,7 +20,8 @@ from .forms import CollaborateRequestForm
     
 def about_me(request):
     """
-    Renders the About page
+    Renders the About page and handles POST requests for the Collaborate form.
+    :model:`about.About` objects are retrieved from the database and passed to the template.
     """
    
     if request.method == "POST":
@@ -29,6 +30,7 @@ def about_me(request):
 # That means that we can determine the HTTP verb that was used for our request by looking at the request.method property.
         print("Recieved a POST request")
         collaborate_form = CollaborateRequestForm(data=request.POST)
+# This creates a new instance of the CollaborateRequestForm and populates it with the data from the POST request (User input)
         if collaborate_form.is_valid():
 # The is_valid() method makes sure we don't try to write a null value to the database. It also helps improve the security of our system
             collaborate_form.save()

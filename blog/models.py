@@ -8,6 +8,13 @@ STATUS = ((0, "Draft"), (1, "Published"))
 
 # Create your models here.
 class Post(models.Model):
+    """
+    Model definition for Post.
+
+    Stores all the blog posts that users create. Related to the User model, so that each post
+    has an author. :model:`auth.User`
+        
+    """
     title = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(max_length=200, unique=True)
     author = models.ForeignKey(
@@ -41,6 +48,12 @@ which specifies how the records associated with the model are ordered
     
     
 class Comment(models.Model):
+    """
+    Model definition for Comment.
+
+    Stores all the comments that users create on blog posts.
+    Related to the Post and User models, :model:`blog.Post` :model:`auth.User`
+    """
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     # The post field in the Comment model stores the ID of the blog post that a comment
     # is linked to. For example, if comments 1, 2 and 3 are all about Post 1, then they

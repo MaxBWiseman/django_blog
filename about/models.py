@@ -5,6 +5,11 @@ from cloudinary.models import CloudinaryField
 # Create your models here.
 
 class About(models.Model):
+    """
+    Model definition for About.
+
+    Stores the content for the about page. :model:`about.About`
+    """
     title = models.CharField(max_length=200)
     profile_image = CloudinaryField('image', default='placeholder')
     content = models.TextField()
@@ -20,6 +25,11 @@ class About(models.Model):
 # This model is used to store the about page content in the database written through the admin interface.
 
 class CollaborateRequest(models.Model):
+    """
+    Model definition for CollaborateRequest.
+
+    Stores the information submitted by users in the collaboration form. :model:`about.CollaborateRequest`
+    """
     name = models.CharField(max_length=200)
     email = models.EmailField()
     message = models.TextField()
