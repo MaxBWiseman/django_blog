@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from django.contrib import messages
 from .models import About
 from .forms import CollaborateRequestForm
@@ -38,11 +38,11 @@ def about_me(request):
 # def about_me(request):
 # That means that we can determine the HTTP verb that was used for our request by looking at the request.method property.
         print("Recieved a POST request")
-        collaborate_form = CollaborateRequestForm(data=request.POST)
+        collaborate_request_form = CollaborateRequestForm(data=request.POST)
 # This creates a new instance of the CollaborateRequestForm and populates it with the data from the POST request (User input)
-        if collaborate_form.is_valid():
+        if collaborate_request_form.is_valid():
 # The is_valid() method makes sure we don't try to write a null value to the database. It also helps improve the security of our system
-            collaborate_form.save()
+            collaborate_request_form.save()
 # Now, we can finally call the save method to write the data to the database.
             messages.add_message(
                 request, messages.SUCCESS,
@@ -52,14 +52,14 @@ def about_me(request):
     
     about = About.objects.all().order_by('-updated_on').first()
 # This retrieves the most recent About object from the database
-    collaborate_form = CollaborateRequestForm()
+    collaborate_request_form = CollaborateRequestForm()
 # This creates a new instance of the CollaborateRequestForm so that it can be passed to the template after a user submits a request
 
     return render(
         request,
         "about/about.html",
         {"about": about,
-         "collaborate_form": collaborate_form,
+         "collaborate_request_form": collaborate_request_form,
          },
     )
 # This renders the about page using the about.html template and passes the about object and collaborate_form form to the template

@@ -31,6 +31,7 @@ Pretty much creating fake data for our tests to use.
     """
 
     def test_render_post_detail_page_with_comment_form(self):
+        """ Test that the post_detail view renders the blog post with the comment form """
         response = self.client.get(reverse(
             'post_detail', args=['blog-title']))
 # Only need to provide a value for args if the URL you are building in reverse expects them. You can check
@@ -56,3 +57,39 @@ To run our post_detail view, we need an instance of Post to render. As an instan
 ForeignKey to a User for its author field, we first needed to create a superuser to author the blog post:
 author=self.user.    
     """
+    
+    def test_successful_comment_submission(self):
+        """Test for posting a comment on a post"""
+        self.client.login(
+            username="myUsername", password="myPassword")
+# The login method is used to authenticate a user before making a request. Here, we are logging in the user
+# we created in the setUp method.
+        post_data = {
+            'content': 'This is a test comment.'
+        }
+# We create a dictionary with the comment content to be posted as fake data.
+        response = self.client.post(reverse(
+            'post_detail', args=['blog-title']), post_data)
+# We use self.client.post() to send a POST request to the post_detail view with the comment content.
+# The reverse function generates a URL from a view name and its arguments. In this case, we are generating
+# the URL for the post_detail view and passing the slug of the post we created in the
+# setUp method as an args parameter. The post_data dictionary is passed as the data parameter.
+        self.assertEqual(response.status_code, 200)
+# The status code 200 means that the request was successful.
+        self.assertIn(
+            b'Comment submitted and awaiting approval',
+            response.content
+        )
+# The assertIn method checks if the text 'Comment submitted and awaiting approval' is in the response
+# content (the HTML of the page).
+
+""" 
+The Django test client's post method, i.e. self.client.post(), takes two arguments: the reverse method and
+the fields dictionary. As in the previous topic, the reverse method generates
+a URL to call the post_detail view for the blog post we created in setUp (with the slug of 'blog-title').
+Calling the post_detail view with reverse returns a response, and we can run our tests.
+
+While testing a POST, we also pass in the post_data fields dictionary containing the comment text.
+We know a comment has been added if the success message 'Comment submitted and awaiting approval' is
+included in the response's content.
+"""
