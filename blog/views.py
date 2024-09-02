@@ -23,7 +23,7 @@ def post_detail(request, slug):
 # two parameters:
 # request: The HTTP request object.
 # slug: A string representing the slug of the post to be displayed.
-# The slug parameter gets the argument value from the URL pattern named post_detail. Inside urls.py
+# The slug parameter gets the argument value from the URL pattern named views.post_detail. Inside urls.py
 # The slug value is unique, so only one post in the database matches this argument.
     """
     Display an individual :model:`blog.Post`.
@@ -47,7 +47,7 @@ def post_detail(request, slug):
 # This filters the Post model objects to include only those with a status of 1 (Published).
 # The result is stored in the queryset variable.
     post = get_object_or_404(queryset, slug=slug)
-# This function attempts to retrieve a single Post object from the queryset where the slug
+# This code attempts to retrieve a single Post object from the queryset where the slug
 # matches the provided slug parameter. If no such object exists, it raises a 404 Not Found error.
     comments = post.comments.all().order_by("-date_posted")
 # While the Post model doesn't have a field named comments, the related_name in our
@@ -60,33 +60,39 @@ def post_detail(request, slug):
 
     
     if request.method == "POST":
-# The first argument sent to any Django view function is the request object. Convention states that we give this parameter the name of request as well, for example:
+# The first argument sent to any Django view function is the request object. Convention states that we
+# give this parameter the name of request as well, for example:
 # def post_detail(request, slug):
-# That means that we can determine the HTTP verb that was used for our request by looking at the request.method property.
+# That means that we can determine the HTTP verb that was used for our request by looking
+# at the request.method property.
         print("Recieved a POST request")
         comment_form = CommentForm(data=request.POST)
         if comment_form.is_valid():
-# The is_valid() method makes sure we don't try to write a null value to the database. It also helps improve the security of our system
+# The is_valid() method makes sure we don't try to write a null value to the database.
+# It also helps improve the security of our system
             comment = comment_form.save(commit=False)
-# Calling the save method with commit=False returns an object that hasn't yet been saved to the database so that we can modify it further.
+# Calling the save method with commit=False returns an object that hasn't yet been saved
+# to the database so that we can modify it further.
 # The object will not be written to the database until we call the save method again.
 # We do this because we need to populate the post and author fields before we save.
             comment.author = request.user
-# We can then modify the object by setting the author field of the comment to the current request.user - the user who is currently logged in.
+# We can then modify the object by setting the author field of the comment to the
+# current request.user - the user who is currently logged in.
             comment.post = post
-# We also set the post field using the post variable, which contains the result of the get_object_or_404 helper function at the start of the view code.
+# We also set the post field using the post variable, which contains the result of the
+# get_object_or_404 helper function at the start of the view code.
             comment.save()
 # Now, we can finally call the save method to write the data to the database.
             messages.add_message(
                 request, messages.SUCCESS,
                 'Comment submitted and awaiting approval'
     )
-# This function accepts a request, a message tag, which we will use to style the messages later, and message text. When a message is added, we then display it using the code we added below the nav in base.html.
+# This function accepts a request, a message tag, which we will use to style the messages later,
+# and message text. When a message is added, we then display it using the code we added below the nav in base.html.
         
     comment_form = CommentForm()
-# Outside the if statement, we create a blank instance of the CommentForm class. This line resets the content of the form to blank so that a user can write a second comment if they wish.
-    
-    print("About to render template")
+# Outside the if statement, we create a blank instance of the CommentForm class. This line resets the
+# content of the form to blank so that a user can write a second comment if they wish.
     
     return render(
         request,
@@ -128,20 +134,27 @@ def comment_edit(request, slug, comment_id):
         queryset = Post.objects.filter(status=1)
 # This filters the Post model objects to include only those with a status of 1 (Published).
         post = get_object_or_404(queryset, slug=slug)
-# This function attempts to retrieve a single Post object from the queryset where the slug matches the provided slug parameter. If no such object exists, it raises a 404 Not Found error.
+# This function attempts to retrieve a single Post object from the queryset where the slug matches the
+# provided slug parameter. If no such object exists, it raises a 404 Not Found error.
         comment = get_object_or_404(Comment, pk=comment_id)
-# This function attempts to retrieve a single Comment object from the queryset where the pk matches the provided comment_id parameter. If no such object exists, it raises a 404 Not Found error.
+# This function attempts to retrieve a single Comment object from the queryset where the pk matches the
+# provided comment_id parameter. If no such object exists, it raises a 404 Not Found error.
         comment_form = CommentForm(data=request.POST, instance=comment)
-# The instance argument is used to specify the instance of the Comment model that we want to edit. This instance is retrieved from the database using the get_object_or_404 function.
+# The instance argument is used to specify the instance of the Comment model that we want to edit.
+# This instance is retrieved from the database using the get_object_or_404 function.
 
         if comment_form.is_valid() and comment.author == request.user:
-# The is_valid() method makes sure we don't try to write a null value to the database. It also helps improve the security of our system
+# The is_valid() method makes sure we don't try to write a null value to the database.
+# It also helps improve the security of our system
             comment = comment_form.save(commit=False)
-# Calling the save method with commit=False returns an object that hasn't yet been saved to the database so that we can modify it further.
+# Calling the save method with commit=False returns an object that hasn't yet been saved to the
+# database so that we can modify it further.
             comment.post = post
-# We also set the post field using the post variable, which contains the result of the get_object_or_404 helper function at the start of the view code.
+# We also set the post field using the post variable, which contains the result of the
+# get_object_or_404 helper function at the start of the view code.
             comment.approved = False
-# We also set the approved field to False so that the comment has to be approved by an admin before it is displayed.
+# We also set the approved field to False so that the comment has to be approved by an admin before it
+# is displayed.
             comment.save()
 # Now, we can finally call the save method to write the data to the database
             messages.add_message(request, messages.SUCCESS, 'Comment Updated!')
@@ -150,21 +163,29 @@ def comment_edit(request, slug, comment_id):
 # Sends a message to the user if the form is not valid.
     return HttpResponseRedirect(reverse('post_detail', args=[slug]))
 # HttpResponseRedirect is a Django class that tells the browser to go to a different URL.
-# reverse is a Django function that constructs a URL from the provided URL path name and any relevant URL arguments: args=[slug].
-# Using the slug argument ensures the user is returned to the same blog post on which they edited or deleted a comment.
+# reverse is a Django function that constructs a URL from the provided URL path name and any
+# relevant URL arguments: args=[slug].
+# Using the slug argument ensures the user is returned to the same blog post on which they edited or
+# deleted a comment.
 
 # Information Flow to Javascript comments.js edit comments
 
 # User Interaction: The user clicks an edit button next to a comment.
-# JavaScript Handling: The JavaScript code retrieves the comment content and prepares the form for editing. It sets the form action to edit_comment/${commentId}.
-# Form Submission: The user edits the comment and submits the form. The form action URL (edit_comment/${commentId}) is used to send the request to the Django view.
-# Django View Processing: The Django view function processes the form submission, validates the data, and updates the comment in the database.
-# Feedback and Redirect: The user receives feedback (success or error message) and is redirected to the post detail page.
+# JavaScript Handling: The JavaScript code retrieves the comment content and prepares the form for editing.
+# It sets the form action to edit_comment/${commentId}.
+# Form Submission: The user edits the comment and submits the form.
+# The form action URL (edit_comment/${commentId}) is used to send the request to the Django view.
+# Django View Processing: The Django view function processes the form submission, validates the data,
+# and updates the comment in the database.
+# Feedback and Redirect: The user receives feedback (success or error message) and
+# is redirected to the post detail page.
 
 # In summary:
 
-# JavaScript: Prepares the form for editing by populating it with the existing comment content and updating the form action.
-# Django View: Processes the form submission, validates the data, updates the comment, and provides feedback to the user.
+# JavaScript: Prepares the form for editing by populating it with the existing comment content and
+# updating the form action.
+# Django View: Processes the form submission, validates the data, updates the comment,
+# and provides feedback to the user.
 
 
 def comment_delete(request, slug, comment_id):
@@ -172,8 +193,8 @@ def comment_delete(request, slug, comment_id):
     view to delete comment
     """
     comment = get_object_or_404(Comment, pk=comment_id)
-# This function attempts to retrieve a single Comment object from the queryset where the pk matches the provided comment_id parameter.
-# If no such object exists, it raises a 404 Not Found error.
+# This function attempts to retrieve a single Comment object from the queryset where the pk matches
+# the provided comment_id parameter. If no such object exists, it raises a 404 Not Found error.
 
     if comment.author == request.user:
 # This checks if the author of the comment is the same as the user who is currently logged in.
@@ -182,7 +203,8 @@ def comment_delete(request, slug, comment_id):
         messages.add_message(request, messages.SUCCESS, 'Comment deleted!')
     else:
         messages.add_message(request, messages.ERROR, 'You can only delete your own comments!')
-# Prompt message if the user tries to delete a comment that is not theirs or successfully deletes their comment.
+# Prompt message if the user tries to delete a comment that is not theirs or successfully deletes
+# their comment.
     return HttpResponseRedirect(reverse('post_detail', args=[slug]))
-# This view returns you to the post webpage after you've deleted the comment. This return is done with a HttpResponseRedirect
-# and reverse to refresh the post_detail view.
+# This view returns you to the post webpage after you've deleted the comment.
+# This return is done with a HttpResponseRedirect and reverse to refresh the post_detail view.

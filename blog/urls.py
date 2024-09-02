@@ -27,4 +27,37 @@ urlpatterns = [
 If you had a human resources web app that identified workers by their ID badge number, then you could use
 the syntax <int:id_badge> to pass the integer argument to the URL path. Alternatively, a car mechanics web
 app identifying cars by their alphanumeric registration plate could do so with <str:reg>.  
+
+
+In Django URL configurations, args and kwargs can be used to pass parameters to views:
+--------------------------------------------------------------
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('post/<int:id>/', views.post_detail, name='post_detail'),
+]
+--------------------------------------------------------------
+In the view:
+--------------------------------------------------------------
+from django.shortcuts import render
+
+def post_detail(request, id):
+    # id is passed as a keyword argument
+    return render(request, 'post_detail.html', {'post_id': id})
+--------------------------------------------------------------
+
+In the provided code snippet from test_views.py, args is used in the reverse function to generate a URL:
+
+args=['blog-title']: This passes the slug 'blog-title' as a positional argument to the reverse function.
+The reverse function generates the URL for the post_detail view using the provided arguments.
+
+Summary:
+
+*args: Used to pass a variable number of non-keyword arguments to a function.
+
+**kwargs: Used to pass a variable number of keyword arguments to a function.
+
+In Django: Commonly used in views, URL configurations, and model methods to handle dynamic arguments.
 """
+
